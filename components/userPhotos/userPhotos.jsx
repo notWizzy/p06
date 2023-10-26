@@ -1,15 +1,11 @@
 import React from 'react';
 import {
-  Button, TextField,
-  ImageList, ImageListItem
+    Button, TextField,
+    ImageList, ImageListItem
 } from '@mui/material';
 import './userPhotos.css';
 import fetchModel from "../../lib/fetchModelData";
 
-
-/**
- * Define UserPhotos, a React componment of project #5
- */
 class UserPhotos extends React.Component {
     constructor(props) {
         super(props);
@@ -34,16 +30,14 @@ class UserPhotos extends React.Component {
 
     handleUserChange(user_id){
         fetchModel("/photosOfUser/" + user_id)
-            .then((response) =>
-            {
+            .then((response) => {
                 this.setState({
                     user_id : user_id,
                     photos: response.data
                 });
             });
         fetchModel("/user/" + user_id)
-            .then((response) =>
-            {
+            .then((response) => {
                 const new_user = response.data;
                 const main_content = "User Photos for " + new_user.first_name + " " + new_user.last_name;
                 this.props.changeMainContent(main_content);
@@ -59,7 +53,7 @@ class UserPhotos extends React.Component {
                     </Button>
                 </div>
                 <ImageList variant="masonry" cols={1} gap={8}>
-                    {this.state.photos.map((item) => (
+                    {this.state.photos && this.state.photos.map((item) => (
                         <div key={item._id}>
                             <TextField id="date" label="Photo Date" variant="outlined" disabled fullWidth margin="normal"
                                        value={item.date_time} />
@@ -78,8 +72,8 @@ class UserPhotos extends React.Component {
                                                    margin="normal" value={comment.date_time} />
                                         <TextField id="user" label="User" variant="outlined" disabled fullWidth
                                                    margin="normal"
-                                                   value={comment.user.first_name + " " + comment.user.last_name}
-                                                   component="a" href={"#/users/" + comment.user._id}/>
+                                                   value={comment.user ? comment.user.first_name + " " + comment.user.last_name : 'Unknown User'}
+                                                   component="a" href={"#/users/" + (comment.user ? comment.user._id : '')}/>
                                         <TextField id="comment" label="Comment" variant="outlined" disabled fullWidth
                                                    margin="normal" multiline rows={4} value={comment.comment} />
                                     </div>
