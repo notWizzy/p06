@@ -37,7 +37,7 @@ class TopBar extends React.Component {
         return this.state.app_info ? (
             <AppBar className="topbar-appBar" position="absolute">
                 <Toolbar>
-                    <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>Todd Dobbs</Typography>
+                    <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>Ka$hApp</Typography>
                     <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} color="inherit">{this.props.main_content}</Typography>
                     <Typography variant="h5" component="div" color="inherit">Version: {this.state.app_info.version}</Typography>
                 </Toolbar>
