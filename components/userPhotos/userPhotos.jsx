@@ -4,7 +4,7 @@ import {
   ImageList, ImageListItem
 } from '@mui/material';
 import './userPhotos.css';
-import fetchModel from "../../lib/fetchModelData";
+import axios from 'axios';
 
 
 /**
@@ -33,7 +33,7 @@ class UserPhotos extends React.Component {
     }
 
     handleUserChange(user_id){
-        fetchModel("/photosOfUser/" + user_id)
+        axios.get("/photosOfUser/" + user_id)
             .then((response) =>
             {
                 this.setState({
@@ -41,7 +41,7 @@ class UserPhotos extends React.Component {
                     photos: response.data
                 });
             });
-        fetchModel("/user/" + user_id)
+        axios.get("/user/" + user_id)
             .then((response) =>
             {
                 const new_user = response.data;
@@ -79,7 +79,8 @@ class UserPhotos extends React.Component {
                                         <TextField id="user" label="User" variant="outlined" disabled fullWidth
                                                    margin="normal"
                                                    value={comment.user.first_name + " " + comment.user.last_name}
-                                                   component="a" href={"#/users/" + comment.user._id}/>
+                                                   component="a" href={"#/users/" + comment.user._id}>
+                                        </TextField>
                                         <TextField id="comment" label="Comment" variant="outlined" disabled fullWidth
                                                    margin="normal" multiline rows={4} value={comment.comment} />
                                     </div>
@@ -99,5 +100,4 @@ class UserPhotos extends React.Component {
         );
     }
 }
-
 export default UserPhotos;

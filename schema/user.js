@@ -11,6 +11,8 @@ const userSchema = new mongoose.Schema({
   location: String,
   description: String,
   occupation: String,
+  // The following attributes need to be added
+  _id: mongoose.Schema.Types.ObjectId,
 });
 
 /**

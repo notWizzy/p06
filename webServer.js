@@ -65,7 +65,7 @@ app.get("/", function (request, response) {
  * Use express to handle argument passing in the URL. This .get will cause
  * express to accept URLs with /test/<something> and return the something in
  * request.params.p1.
- * 
+ *
  * If implement the get as follows:
  * /test        - Returns the SchemaInfo object of the database in JSON format.
  *                This is good for testing connectivity with MongoDB.
@@ -113,24 +113,24 @@ app.get("/test/:p1", function (request, response) {
       { name: "schemaInfo", collection: SchemaInfo },
     ];
     async.each(
-      collections,
-      function (col, done_callback) {
-        col.collection.countDocuments({}, function (err, count) {
-          col.count = count;
-          done_callback(err);
-        });
-      },
-      function (err) {
-        if (err) {
-          response.status(500).send(JSON.stringify(err));
-        } else {
-          const obj = {};
-          for (let i = 0; i < collections.length; i++) {
-            obj[collections[i].name] = collections[i].count;
+        collections,
+        function (col, done_callback) {
+          col.collection.countDocuments({}, function (err, count) {
+            col.count = count;
+            done_callback(err);
+          });
+        },
+        function (err) {
+          if (err) {
+            response.status(500).send(JSON.stringify(err));
+          } else {
+            const obj = {};
+            for (let i = 0; i < collections.length; i++) {
+              obj[collections[i].name] = collections[i].count;
+            }
+            response.end(JSON.stringify(obj));
           }
-          response.end(JSON.stringify(obj));
         }
-      }
     );
   } else {
     // If we know understand the parameter we return a (Bad Parameter) (400)
@@ -177,7 +177,7 @@ app.get("/photosOfUser/:id", function (request, response) {
 const server = app.listen(3000, function () {
   const port = server.address().port;
   console.log(
-    "Listening at http://localhost:" +
+      "Listening at http://localhost:" +
       port +
       " exporting the directory " +
       __dirname
