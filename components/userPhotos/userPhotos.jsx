@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-  Button, TextField,
-  ImageList, ImageListItem
+    Button, TextField,
+    ImageList, ImageListItem
 } from '@mui/material';
 import './userPhotos.css';
-import fetchModel from "../../lib/fetchModelData";
+import axios from 'axios';
 
 
 /**
@@ -14,7 +14,7 @@ class UserPhotos extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            user_id : undefined,
+            user_id: undefined,
             photos: undefined
         };
     }
@@ -27,23 +27,21 @@ class UserPhotos extends React.Component {
     componentDidUpdate() {
         const new_user_id = this.props.match.params.userId;
         const current_user_id = this.state.user_id;
-        if (current_user_id  !== new_user_id){
+        if (current_user_id !== new_user_id) {
             this.handleUserChange(new_user_id);
         }
     }
 
-    handleUserChange(user_id){
-        fetchModel("/photosOfUser/" + user_id)
-            .then((response) =>
-            {
+    handleUserChange(user_id) {
+        axios.get("/photosOfUser/" + user_id)
+            .then((response) => {
                 this.setState({
-                    user_id : user_id,
+                    user_id: user_id,
                     photos: response.data
                 });
             });
-        fetchModel("/user/" + user_id)
-            .then((response) =>
-            {
+        axios.get("/user/" + user_id)
+            .then((response) => {
                 const new_user = response.data;
                 const main_content = "User Photos for " + new_user.first_name + " " + new_user.last_name;
                 this.props.changeMainContent(main_content);
@@ -79,7 +77,8 @@ class UserPhotos extends React.Component {
                                         <TextField id="user" label="User" variant="outlined" disabled fullWidth
                                                    margin="normal"
                                                    value={comment.user.first_name + " " + comment.user.last_name}
-                                                   component="a" href={"#/users/" + comment.user._id}/>
+                                                   component="a" href={"#/users/" + comment.user._id}>
+                                        </TextField>
                                         <TextField id="comment" label="Comment" variant="outlined" disabled fullWidth
                                                    margin="normal" multiline rows={4} value={comment.comment} />
                                     </div>
@@ -95,9 +94,8 @@ class UserPhotos extends React.Component {
                 </ImageList>
             </div>
         ) : (
-            <div/>
+            <div />
         );
     }
 }
-
 export default UserPhotos;
